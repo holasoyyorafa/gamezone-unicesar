@@ -1,5 +1,9 @@
 package com.gamezone.model;
 
+/**
+ * Represents a video game product with platform,
+ * genre and age rating information.
+ */
 public class VideoGame extends Product {
 
     private String platform;

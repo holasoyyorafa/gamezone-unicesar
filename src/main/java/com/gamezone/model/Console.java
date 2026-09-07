@@ -1,5 +1,9 @@
 package com.gamezone.model;
 
+/**
+ * Represents a gaming console product with brand,
+ * model and generation information.
+ */
 public class Console extends Product {
 
     private String brand;
