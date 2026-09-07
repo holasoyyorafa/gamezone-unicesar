@@ -16,25 +16,23 @@ public class Seller extends Person {
         this.employeeCode = employeeCode;
         this.workShift = workShift;
     }
-
-    @Override
+        @Override
     public String getRole() {
         return "Seller";
     }
+
     public String getEmployeeCode() {
-    return employeeCode;
-}
+        return employeeCode;
+    }
 
-public void setEmployeeCode(String employeeCode) {
-    this.employeeCode = employeeCode;
-}
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode;
+    }
+        public String getWorkShift() {
+        return workShift;
+    }
 
-public String getWorkShift() {
-    return workShift;
-}
-
-public void setWorkShift(String workShift) {
-    this.workShift = workShift;
-}
-``
+    public void setWorkShift(String workShift) {
+        this.workShift = workShift;
+    }
 }
