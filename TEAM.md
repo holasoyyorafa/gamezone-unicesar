@@ -5,8 +5,8 @@
 | Nombre completo | Codigo estudiantil | Usuario GitHub | Rol | Modulo asignado | Rama feature |
 |---|---|---|---|---|---|
 | Rafael Alfonso Rivera Restrepo | 1066865616 | holasoyyorafa | Lider Tecnico | Ventas + Integracion + UI + Main | (trabaja sobre develop) |
-| Ivan Andres Rodriguez Rodriguez | 1066869780 | Ivan-rodriguez10 | Desarrollador 1 | Productos | feature/product-module |
-| Luis Eliecer Mendoza Perpiñan | 1066349711 | leliecermendoza | Desarrollador 2 | Personas | feature/person-module |
+| Luis Eliecer Mendoza Perpiñan | 1066349711 | leliecermendoza | Desarrollador 1 | Productos | feature/product-module |
+| Ivan Andres Rodriguez Rodriguez | 1066869780 | Ivan-rodriguez10 | Desarrollador 2 | Personas | feature/person-module |
 
 ## Distribucion de clases
 
@@ -20,14 +20,14 @@
 - `ConsoleMenu` / `UserInterface` (clase de interfaz de usuario)
 - `Main` (clase principal de arranque)
 
-### Desarrollador 1 - Modulo de Productos (Ivan Rodriguez)
+### Desarrollador 1 - Modulo de Productos (Luis Mendoza)
 - `Product` (clase abstracta base de productos)
 - `VideoGame` (clase derivada 1 - videojuegos)
 - `Console` (clase derivada 2 - consolas)
 - `ProductRepository` (clase de persistencia de productos)
 - `ProductService` (clase de servicio de productos)
 
-### Desarrollador 2 - Modulo de Personas (Luis Mendoza)
+### Desarrollador 2 - Modulo de Personas (Ivan Rodriguez)
 - `Person` (clase abstracta base de personas)
 - `Customer` (clase derivada 1 - clientes)
 - `Seller` (clase derivada 2 - vendedores)
@@ -54,7 +54,7 @@
 12. Revisar e integrar los Pull Requests de los desarrolladores en develop.
 13. Elaborar el README.md final con instrucciones de compilacion y ejecucion.
 
-### Desarrollador 1 (Ivan Rodriguez)
+### Desarrollador 1 (Luis Mendoza)
 1. Crear la rama feature/product-module.
 2. Implementar la clase abstracta Product con atributos y metodos comunes.
 3. Declarar el metodo abstracto de descripcion que las subclases deberan implementar.
@@ -65,7 +65,7 @@
 8. Documentar todas las clases del modulo con JavaDoc en ingles.
 9. Solicitar Pull Requests al Lider Tecnico para integrar el modulo.
 
-### Desarrollador 2 (Luis Mendoza)
+### Desarrollador 2 (Ivan Rodriguez)
 1. Crear la rama feature/person-module.
 2. Implementar la clase abstracta Person con atributos y metodos comunes.
 3. Declarar el metodo abstracto/de negocio que las subclases deberan implementar segun el analisis.
