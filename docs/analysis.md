@@ -1,80 +1,50 @@
-# Analysis - GameZone Unicesar
+# Analysis — GameZone Unicesar
 
-> This document must be written in English and contain the team's own
-> answers, discussed and agreed upon before building the diagrams.
-> Do not have an AI answer these questions directly (see the AI usage
-> policy in the workshop statement).
+## People
 
-## People in the system
+**1. Common vs specific attributes / hierarchy**
+All people share `id`, `name`, and `phone`. Clients add `email` and `purchaseHistory`. Sellers add `employeeCode` and `shift`. This maps to a `Person` base class with `Client` and `Seller` as subclasses.
 
-1. What attributes are common to all people who interact with the store,
-   and which are specific to each type of person? How is this distinction
-   reflected in a class hierarchy?
+**2. Generic "Person" class**
+Yes, `Person` should exist, but as an **abstract class**. It centralizes shared attributes/behavior and avoids duplication, but the system never deals with a person who is neither a client nor a seller — so it must not be instantiable directly.
 
-  The common attributes for all people are name, identification (ID), and contact phone number. Specific attributes for clients include an email address and a purchase history. Specific attributes for sellers include an employee code and an assigned work shift. This distinction is reflected in a class hierarchy by creating a base class (Person) that holds the shared attributes, and two derived subclasses (Client and Seller) that inherit from the base class and define their own specific attributes.
-  
-2. Should there be a class representing a generic "person" without
-   specifying a role? Why or why not? What implication does this decision
-   have on the possibility of instantiating that class?
+## Products
 
-  Yes, there should be a generic Person class to group the shared attributes and avoid code duplication. However, because anyone interacting with the store always has a specific role (they are either a client or a seller), a generic person should not exist on its own. The implication of this design choice is that the Person class must be declared as abstract. This prevents the class from being instantiated directly, ensuring that the system only creates objects of the specific Client or Seller subclasses.
+**3. Common vs specific characteristics**
+All products share `id`, `title`, `price`, and `stock`. `VideoGame` adds `platform`, `genre`, `ageRating`. `Console` adds `brand`, `model`, `generation`.
 
-## Products in the system
+**4. Description behavior**
+`Product` declares `describe()` as an **abstract method**. Each subclass provides its own implementation using **method overriding (polymorphism)**, guaranteeing every subclass supplies a description that includes its particular attributes.
 
-3. What characteristics do all products sold by the store have in common,
-   regardless of type? What characteristics are specific to each product type?
+## Sales and relationships
 
-   All products sold by the store, regardless of their type, share common characteristics such as an identifier, title, price, and available stock quantity. On the other hand, specific characteristics depend on the product type: video games have a platform, genre, and recommended age rating, while consoles have a brand, model, and generation.
+**5. Relationships involving Sale**
+- `Sale` – `Client`: association (a sale references one client).
+- `Sale` – `Seller`: association (a sale references one seller).
+- `Sale` – `Product`: association with multiplicity `1..*` (a sale involves one or more products), not composition, since products exist independently of any sale.
 
-4. Each product type must be able to present a description integrating its
-   particular characteristics. How should this behavior be declared in the
-   base class to guarantee that all subclasses implement it in their own way?
-   What OOP mechanism enables this?
-
-  To guarantee that all subclasses implement their own version of the description, this behavior should be declared as an abstract method in the base class (for example, public abstract String getDescription();). The Object-Oriented Programming (OOP) mechanisms that enable this behavior are Abstraction and Polymorphism, which allow the base class to define the contract while the derived classes provide the specific implementation.
-
-## Sales and relationships between entities
-
-5. A sale involves a customer, a seller, and one or more products. What
-   kind of relationships exist between the Sale class and the other classes
-   in the system? Are these relationships inheritance, association,
-   composition, or another type? Justify.
-
-   _(answer)_
-
-6. Should Sale be responsible for calculating its own total, or should this
-   responsibility fall to another class? Argue your decision.
-
-   _(answer)_
+**6. Who calculates the total**
+`Sale` should calculate its own total, since the total is intrinsic data of the sale itself (sum of its products' prices). Delegating it elsewhere would break encapsulation and scatter business logic that belongs to the `Sale` entity.
 
 ## Business rules
 
-7. How is it guaranteed in the design that a sale cannot be registered
-   without at least one product? At what point in the system should this
-   rule be validated?
+**7. Minimum one product**
+Enforced in the constructor/registration logic of `Sale` (model) and validated again in `SaleService` before persisting — the service layer is the right place to reject an invalid sale before it reaches persistence.
 
-   _(answer)_
+**8. Automatic inventory update**
+When a sale is registered, `SaleService` invokes `ProductService` to decrease stock for each purchased product. This keeps the model layer free of cross-module logic while services coordinate the update.
 
-8. How is the automatic inventory update reflected in the design when a
-   sale is registered? Which classes are involved in this operation?
+## Layers
 
-   _(answer)_
+**9. Class-to-layer criteria**
+- **Model**: domain entities (`Person`, `Client`, `Seller`, `Product`, `VideoGame`, `Console`, `Sale`).
+- **Persistence**: classes reading/writing files (`ProductRepository`, `PersonRepository`, `SaleRepository`).
+- **Service**: business rules and validation (`ProductService`, `PersonService`, `SaleService`).
+- **UI**: console menu classes.
+The criterion is responsibility: does the class represent business data (model), store/retrieve it (persistence), enforce rules (service), or interact with the user (ui)?
 
-## Layered organization
+**10. Why file logic doesn't belong in the model**
+Mixing persistence into domain classes couples business data to storage format, making the domain harder to test, reuse, or change storage strategy without touching core logic — violating separation of concerns.
 
-9. The system must be organized into four layers: model, persistence,
-   service, and UI. What kind of classes belong to each layer? What
-   criterion determines which layer a class should belong to?
-
-   _(answer)_
-
-10. Why shouldn't the logic for saving and retrieving data from files be
-    inside the domain classes? What problems arise when these
-    responsibilities are mixed?
-
-    _(answer)_
-
-11. What dependencies are allowed between layers, and which are
-    forbidden? Justify the direction of the allowed dependencies.
-
-    _(answer)_
+**11. Allowed vs forbidden dependencies**
+Allowed: `ui → service → persistence → model`. Forbidden: `model` depending on any other layer, `ui` accessing `persistence` directly. This keeps the domain independent and forces all data access through validated business rules.
