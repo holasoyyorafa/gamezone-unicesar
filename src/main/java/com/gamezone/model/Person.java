@@ -11,4 +11,5 @@ public abstract class Person {
         this.name = name;
         this.phone = phone;
     }
+    public abstract String getRole();
 }
