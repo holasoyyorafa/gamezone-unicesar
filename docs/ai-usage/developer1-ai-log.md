@@ -5,7 +5,9 @@
 
 | Date | Tool | What I asked | Why | What I did with the answer |
 |---|---|---|---|---|
-| 2026-09-XX | Claude | Ayuda para estructurar el análisis y diseño del módulo de productos (docs/analysis.md) | Necesitaba definir clases y responsabilidades antes de escribir código | Modifiqué la propuesta para ajustarla a los atributos reales del catálogo GameZone |
-| 2026-09-XX | Claude | Revisión de diagrama de clases en Mermaid para el módulo de productos | Quería validar relaciones entre Producto, Categoría e Inventario | Acepté la estructura general y ajusté nombres de clases al español del equipo |
-| 2026-09-XX | Claude | Explicación de flujo Git Flow (main/develop/feature) para el equipo | Necesitaba entender el orden correcto de ramas y merges antes de hacer el primer commit | Apliqué el flujo tal como se explicó, sin cambios |
-| 2026-09-XX | Claude | Ayuda para implementar la capa Service del paquete com.gamezone.service para Productos | Tenía dudas sobre cómo separar lógica de negocio de persistencia | Adapté el código generado a los nombres de métodos ya definidos en el diseño del equipo |
+| 2026-09-07 | Claude | Help structuring the analysis and design of the products module (docs/analysis.md) | I needed to define classes and responsibilities before writing code | I modified the proposal to match the actual attributes of the GameZone catalog |
+| 2026-09-07 | Claude | Review of the class diagram in Mermaid for the products module | I wanted to validate relationships between Product, Category and Inventory | I accepted the general structure and adjusted class names to the team's Spanish naming |
+| 2026-09-07 | Claude | Explanation of the Git Flow (main/develop/feature) for the team | I needed to understand the correct branch and merge order before the first commit | I applied the flow exactly as explained, no changes |
+| 2026-09-07 | Claude | Help implementing the Service layer of the com.gamezone.service package for Products | I had doubts about how to separate business logic from persistence | I adapted the generated code to the method names already defined in the team's design |
+| 2026-09-07 | Claude | Help writing the ai-usage log file for the GameZone repository (docs/ai-usage/) | I needed to document AI interactions in the format required by the workshop guide | I accepted the table format and edited the entries to reflect my real interactions |
+| 2026-09-07 | Claude | Help understanding how to convert an existing Spanish/mixed document into English to match the repo's documentation standard | The workshop requires design docs to be in English | I reviewed the translation and adjusted terminology to match the team's terms |
