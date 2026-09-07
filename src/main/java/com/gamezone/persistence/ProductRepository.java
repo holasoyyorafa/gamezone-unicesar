@@ -42,7 +42,7 @@ public class ProductRepository {
             while ((line = reader.readLine()) != null) {
                 if (line.isBlank()) continue;
                 String[] parts = line.split(",");
-
+                     if (parts.length < 8) continue;
                 if (parts[0].equals("VIDEOGAME")) {
                     products.add(new VideoGame(parts[1], parts[2], Double.parseDouble(parts[3]),
                             Integer.parseInt(parts[4]), parts[5], parts[6], parts[7]));
