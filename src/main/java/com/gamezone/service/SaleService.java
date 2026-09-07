@@ -24,12 +24,14 @@ public class SaleService {
         // Verificación de stock suficiente
         for (Product p : products) {
             if (p.getStock() < 1) {
+                
                 throw new Exception("Insufficient stock for product: " + p.getId());
             }
         }
 
         // Actualización de inventario
         for (Product p : products) {
+
             p.setStock(p.getStock() - 1);
         }
 
