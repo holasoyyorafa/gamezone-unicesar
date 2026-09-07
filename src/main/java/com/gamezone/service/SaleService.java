@@ -16,15 +16,21 @@ public class SaleService {
     }
 
    
-    public void registerSale(String date, Client client, Seller seller, List<Product> products) throws Exception {
+   public void registerSale(String date, Client client, Seller seller, List<Product> products) throws Exception {
         if (products == null || products.isEmpty()) {
             throw new Exception("A sale must contain at least one product.");
         }
 
-
-
+        // Verificación de stock suficiente
         for (Product p : products) {
-          p.setStock(p.getStock() - 1);
+            if (p.getStock() < 1) {
+                throw new Exception("Insufficient stock for product: " + p.getId());
+            }
+        }
+
+        // Actualización de inventario
+        for (Product p : products) {
+            p.setStock(p.getStock() - 1);
         }
 
         Sale sale = new Sale(date, client, seller, products);
