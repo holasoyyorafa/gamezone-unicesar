@@ -25,10 +25,11 @@ public class ProductRepository {
                             + "," + c.getStock() + "," + c.getBrand() + "," + c.getModel() + "," + c.getGeneration());
                 }
             }
-        } catch (IOException e) {
-            System.out.println("Error saving products: " + e.getMessage());
-        }
-    }
+            } catch (IOException e) {
+               System.out.println("Error saving products: " + e.getMessage());
+                  e.printStackTrace();
+            }
+    } 
 
     public List<Product> loadAll() {
         List<Product> products = new ArrayList<>();
