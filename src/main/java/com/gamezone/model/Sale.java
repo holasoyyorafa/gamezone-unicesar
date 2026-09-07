@@ -17,4 +17,18 @@ public class Sale {
         this.seller = seller;
         this.products = products;
     }
+
+
+    
+    public void calculateTotal() {
+        this.total = 0;
+        if (products != null) {
+            for (Product product : products) {
+                this.total += product.getPrice();
+            }
+        }
+    }
+
+
+
 }
