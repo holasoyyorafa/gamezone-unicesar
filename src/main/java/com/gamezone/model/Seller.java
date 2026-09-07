@@ -66,4 +66,12 @@ public class Seller extends Person {
     public void setWorkShift(String workShift) {
         this.workShift = workShift;
     }
+    @Override
+public String toString() {
+    return "Seller {"
+            + super.toString()
+            + ", employee code: " + employeeCode
+            + ", work shift: " + workShift
+            + "}";
+}
 }
