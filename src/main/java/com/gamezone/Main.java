@@ -1,13 +1,18 @@
 package com.gamezone;
 
+import com.gamezone.persistence.SaleRepository;
+import com.gamezone.service.SaleService;
+import com.gamezone.ui.ConsoleUI;
+
 /**
- * Entry point of the GameZone Unicesar application.
- * TODO (Lider Tecnico - Actividad 11): initialize repositories, services,
- * load data on startup, and launch the UI menu.
+ * Entry point for the application.
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("GameZone Unicesar - system starting...");
-        // TODO: wire persistence -> service -> ui layers here.
+        SaleRepository saleRepository = new SaleRepository();
+        SaleService saleService = new SaleService(saleRepository);
+
+        ConsoleUI consoleUI = new ConsoleUI(saleService);
+        consoleUI.displayMainMenu();
     }
 }
