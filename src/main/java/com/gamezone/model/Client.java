@@ -13,4 +13,11 @@ public class Client extends Person {
     public String getRole() {
         return "Client";
     }
+    public String getEmail() {
+    return email;
+}
+
+public void setEmail(String email) {
+    this.email = email;
+}
 }
