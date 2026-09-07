@@ -10,6 +10,14 @@ public class ConsoleUI {
         this.saleService = saleService;
     }
 
+    public void displayProductSubmenu() {
+        System.out.println("--- Product Submenu ---");
+    }
+
+    public void displayPersonSubmenu() {
+        System.out.println("--- Person Submenu ---");
+    }
+
    
     public void displayMainMenu() {
         System.out.println("=== GameZone Unicesar ===");
