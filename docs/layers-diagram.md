@@ -1,22 +1,28 @@
 # Layers Diagram
 
-> Show the four layers (model, persistence, service, ui), which classes
-> belong to each, and the allowed dependency direction:
-> ui -> service -> persistence -> model (model depends on nothing).
-
 ```mermaid
-flowchart TD
-    subgraph UI[ui layer]
+graph TD
+    UI["UI Layer<br/>ConsoleUI"] --> SERVICE
+    subgraph SERVICE["Service Layer"]
+        ProductService
+        PersonService
+        SaleService
     end
-    subgraph Service[service layer]
+    SERVICE --> PERSISTENCE
+    SERVICE --> MODEL
+    subgraph PERSISTENCE["Persistence Layer"]
+        ProductRepository
+        PersonRepository
+        SaleRepository
     end
-    subgraph Persistence[persistence layer]
+    PERSISTENCE --> MODEL
+    subgraph MODEL["Model Layer"]
+        Person
+        Client
+        Seller
+        Product
+        VideoGame
+        Console
+        Sale
     end
-    subgraph Model[model layer]
-    end
-
-    UI --> Service
-    Service --> Persistence
-    Service --> Model
-    Persistence --> Model
 ```
