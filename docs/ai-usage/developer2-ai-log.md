@@ -1,21 +1,24 @@
-# Developer 2 AI Usage Log
+# AI Usage Log - Developer 2
 
-## General description
+---
 
-Microsoft Copilot was used as a support and consultation tool during the implementation of the person module. Its use focused on clarifying specific doubts about concepts and understanding some errors that appeared during development.
+> I occasionally used Microsoft Copilot as a support tool to clarify specific questions during development. I reviewed the explanations provided and personally completed the implementation, corrections, Maven verification, and Git operations.
 
-## Consultations
+---
 
-- Clarification about abstract classes and inheritance between Person, Client, and Seller.
-- Guidance about the responsibilities of the persistence and service layers.
-- Explanation of the correct order of Git commands.
-- Help understanding Maven compilation messages.
-- Examples of JavaDoc documentation in English.
+| Date | Tool | What I Asked | Why | What I Did with the Answer |
+|:---:|:---:|:---|:---|:---|
+| 2026-09-06 | Microsoft Copilot | I asked for clarification about abstract classes and inheritance in the person module. | I wanted to confirm the correct relationship between Person, Client, and Seller. | I used the explanation as a reference and implemented the classes in the project. |
+| 2026-09-06 | Microsoft Copilot | I asked about the responsibilities of the service and persistence layers. | I had questions about where to place validations and file operations. | I kept the validations in PersonService and the file operations in PersonRepository. |
+| 2026-09-06 | Microsoft Copilot | I asked about the correct order of the Git commands. | I needed to remember the correct process for registering and uploading each change. | I reviewed the explanation and personally executed the Git commands for each modification. |
+| 2026-09-06 | Microsoft Copilot | I asked for help understanding some Maven compilation messages. | Maven showed syntax errors, and I needed to understand the indicated lines. | I reviewed the files, corrected incomplete declarations and missing braces, and compiled the project again. |
+| 2026-09-06 | Microsoft Copilot | I asked for basic JavaDoc examples in English. | I wanted to confirm the correct structure for documenting public classes and methods. | I used the examples as a reference and adapted the documentation to the actual behavior of the module. |
+| 2026-09-06 | Microsoft Copilot | I asked how to display client and seller information in the console. | I needed a simple way to represent the person objects. | I implemented and reviewed the toString methods in Person, Client, and Seller. |
 
-## Personal work
+---
 
-I created and edited the Java classes, executed the Git commands, reviewed the suggested explanations, corrected the errors in the files, compiled the project with Maven, and uploaded the changes to GitHub.
+## Final Reflection
 
-## Final reflection
+Microsoft Copilot was occasionally used as a consultation tool to clarify specific questions. I personally created and modified the files, executed the commands, corrected the errors, verified the project with Maven, and uploaded the changes to the repository.
 
-The AI tool was used to clarify doubts and provide examples. I reviewed each suggestion and was responsible for implementing, testing, and verifying the final result.
+---
