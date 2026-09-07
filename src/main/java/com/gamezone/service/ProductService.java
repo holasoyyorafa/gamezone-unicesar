@@ -5,6 +5,10 @@ import com.gamezone.persistence.ProductRepository;
 
 import java.util.List;
 
+/**
+ * Handles business logic for products: registration,
+ * listing, and stock management.
+ */
 public class ProductService {
 
     private ProductRepository repository = new ProductRepository();
@@ -37,6 +41,10 @@ public class ProductService {
         return false;
     }
 
+    /**
+     * Finds a product by its id.
+     * Returns null if no product matches.
+     */
     public Product findById(String productId) {
         for (Product p : products) {
             if (p.getId().equals(productId)) {
