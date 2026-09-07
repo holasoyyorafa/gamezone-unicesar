@@ -11,13 +11,13 @@
    and which are specific to each type of person? How is this distinction
    reflected in a class hierarchy?
 
-   _(answer)_
-
+  The common attributes for all people are name, identification (ID), and contact phone number. Specific attributes for clients include an email address and a purchase history. Specific attributes for sellers include an employee code and an assigned work shift. This distinction is reflected in a class hierarchy by creating a base class (Person) that holds the shared attributes, and two derived subclasses (Client and Seller) that inherit from the base class and define their own specific attributes.
+  
 2. Should there be a class representing a generic "person" without
    specifying a role? Why or why not? What implication does this decision
    have on the possibility of instantiating that class?
 
-   _(answer)_
+  Yes, there should be a generic Person class to group the shared attributes and avoid code duplication. However, because anyone interacting with the store always has a specific role (they are either a client or a seller), a generic person should not exist on its own. The implication of this design choice is that the Person class must be declared as abstract. This prevents the class from being instantiated directly, ensuring that the system only creates objects of the specific Client or Seller subclasses.
 
 ## Products in the system
 
