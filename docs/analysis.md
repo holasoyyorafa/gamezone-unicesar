@@ -24,14 +24,14 @@
 3. What characteristics do all products sold by the store have in common,
    regardless of type? What characteristics are specific to each product type?
 
-   _(answer)_
+   All products sold by the store, regardless of their type, share common characteristics such as an identifier, title, price, and available stock quantity. On the other hand, specific characteristics depend on the product type: video games have a platform, genre, and recommended age rating, while consoles have a brand, model, and generation.
 
 4. Each product type must be able to present a description integrating its
    particular characteristics. How should this behavior be declared in the
    base class to guarantee that all subclasses implement it in their own way?
    What OOP mechanism enables this?
 
-   _(answer)_
+  To guarantee that all subclasses implement their own version of the description, this behavior should be declared as an abstract method in the base class (for example, public abstract String getDescription();). The Object-Oriented Programming (OOP) mechanisms that enable this behavior are Abstraction and Polymorphism, which allow the base class to define the contract while the derived classes provide the specific implementation.
 
 ## Sales and relationships between entities
 
