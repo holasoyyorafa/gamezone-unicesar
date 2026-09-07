@@ -2,8 +2,6 @@ AI Usage Log
 
 Project: GameZone Unicesar
 
-Student: Systems Engineering (4th Semester)
-
 Module: Implementation and Version Control (Branch: feature/sale-module)
 
 Introduction
