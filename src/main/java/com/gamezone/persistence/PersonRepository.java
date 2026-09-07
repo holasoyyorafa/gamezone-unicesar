@@ -11,14 +11,26 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Handles file persistence operations for clients and sellers.
+ */
 public class PersonRepository {
 
     private final Path filePath;
-
+/**
+ * Creates a repository using the specified data file.
+ *
+ * @param fileName path of the file used to store people
+ */
     public PersonRepository(String fileName) {
         this.filePath = Path.of(fileName);
     }
-
+/**
+ * Saves a person in the data file.
+ *
+ * @param person person to save
+ * @throws IOException if the file cannot be written
+ */
     public void save(Person person) throws IOException {
         createParentFolder();
 
@@ -66,6 +78,12 @@ public class PersonRepository {
             Files.createDirectories(parentFolder);
         }
     }
+    /**
+ * Loads all people stored in the data file.
+ *
+ * @return list of stored people
+ * @throws IOException if the file cannot be read
+ */
     public List<Person> load() throws IOException {
     List<Person> people = new ArrayList<>();
 
