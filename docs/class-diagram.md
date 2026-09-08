@@ -1,74 +1,118 @@
+# Class Diagram
+
+```mermaid
 classDiagram
-    %% Model Layer
+    %% MODEL LAYER
     class Person {
         <<abstract>>
         -String id
         -String name
         -String phone
-        +Person(id, name, phone)
-        +getDetails()* String
+        +getId() String
+        +getName() String
+        +getPhone() String
     }
     class Client {
         -String email
-        +Client(id, name, phone, email)
-        +getDetails() String
+        -List~Sale~ purchaseHistory
+        +getEmail() String
+        +getPurchaseHistory() List~Sale~
     }
     class Seller {
         -String employeeCode
         -String shift
-        +Seller(id, name, phone, employeeCode, shift)
-        +getDetails() String
+        +getEmployeeCode() String
+        +getShift() String
     }
-    
     class Product {
         <<abstract>>
         -String id
         -String title
         -double price
         -int stock
-        +Product(...)
-        +getDescription()* String
+        +describe()* String
+        +getPrice() double
+        +getStock() int
+        +setStock(int) void
     }
-    
+    class VideoGame {
+        -String platform
+        -String genre
+        -String ageRating
+        +describe() String
+    }
+    class Console {
+        -String brand
+        -String model
+        -String generation
+        +describe() String
+    }
     class Sale {
         -String date
         -Client client
         -Seller seller
         -List~Product~ products
-        -double total
-        +Sale(date, client, seller, products)
-        +calculateTotal() void
-        +getTotal() double
+        +calculateTotal() double
     }
 
     Person <|-- Client
     Person <|-- Seller
     Product <|-- VideoGame
     Product <|-- Console
-    Sale --> "1" Client
-    Sale --> "1" Seller
-    Sale o-- "1..*" Product
+    Sale "1" --> "1" Client
+    Sale "1" --> "1" Seller
+    Sale "1" --> "1..*" Product
 
-    %% Persistence Layer
-    class SaleRepository {
-        +save(Sale sale) void
-        +findAll() List~Sale~
+    %% PERSISTENCE LAYER
+    class ProductRepository {
+        +save(Product) void
+        +loadAll() List~Product~
     }
+    class PersonRepository {
+        +save(Person) void
+        +loadAll() List~Person~
+    }
+    class SaleRepository {
+        +save(Sale) void
+        +loadAll() List~Sale~
+    }
+    ProductRepository ..> Product
+    PersonRepository ..> Person
+    SaleRepository ..> Sale
 
-    %% Service Layer
+    %% SERVICE LAYER
+    class ProductService {
+        -ProductRepository repository
+        +registerProduct(Product) void
+        +listProducts() List~Product~
+        +updateStock(String, int) void
+    }
+    class PersonService {
+        -PersonRepository repository
+        +registerClient(Client) void
+        +listClients() List~Client~
+        +listSellers() List~Seller~
+    }
     class SaleService {
         -SaleRepository repository
         -ProductService productService
-        +registerSale(date, client, seller, products) void
-        +getSalesHistory() List~Sale~
+        +registerSale(Sale) void
+        +getSalesByClient(String) List~Sale~
+        +getSalesBySeller(String) List~Sale~
     }
-
-    %% UI Layer
-    class ConsoleUI {
-        -SaleService saleService
-        +displayMenu() void
-    }
-
-    ConsoleUI --> SaleService
+    ProductService --> ProductRepository
+    PersonService --> PersonRepository
     SaleService --> SaleRepository
-    SaleService --> Sale
+    SaleService --> ProductService
+
+    %% UI LAYER
+    class ConsoleUI {
+        -ProductService productService
+        -PersonService personService
+        -SaleService saleService
+        +showMainMenu() void
+    }
+    ConsoleUI --> ProductService
+    ConsoleUI --> PersonService
+    ConsoleUI --> SaleService
+```
