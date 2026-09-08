@@ -10,9 +10,11 @@ import java.util.List;
 
 public class SaleService {
     private SaleRepository saleRepository;
+    private ProductService productService;
 
-    public SaleService(SaleRepository saleRepository) {
+    public SaleService(SaleRepository saleRepository, ProductService productService) {
         this.saleRepository = saleRepository;
+        this.productService = productService;
     }
 
    
@@ -29,10 +31,9 @@ public class SaleService {
             }
         }
 
-        // Actualización de inventario
+        // Actualización de inventario (se persiste en disco a través de ProductService)
         for (Product p : products) {
-
-            p.setStock(p.getStock() - 1);
+            productService.updateStock(p.getId(), 1);
         }
 
         Sale sale = new Sale(date, client, seller, products);
