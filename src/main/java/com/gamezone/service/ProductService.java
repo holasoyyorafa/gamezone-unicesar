@@ -42,6 +42,22 @@ public class ProductService {
     }
 
     /**
+     * Restores stock for a specific product when a return is processed.
+     * 
+     * @param productId the product ID
+     * @param quantity the quantity to restore (add)
+     */
+    public void restoreStock(String productId, int quantity) {
+        for (Product p : products) {
+            if (p.getId().equals(productId)) {
+                p.setStock(p.getStock() + quantity);
+                repository.save(products);
+                break;
+            }
+        }
+    }
+
+    /**
      * Finds a product by its id.
      * Returns null if no product matches.
      */
@@ -51,6 +67,7 @@ public class ProductService {
                 return p;
             }
         }
+        
         return null;
     }
 }
