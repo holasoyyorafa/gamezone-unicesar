@@ -3,31 +3,37 @@ package com.gamezone.ui;
 import com.gamezone.model.Client;
 import com.gamezone.model.Console;
 import com.gamezone.model.Product;
+import com.gamezone.model.Promotion;
 import com.gamezone.model.Seller;
 import com.gamezone.model.VideoGame;
+import com.gamezone.persistence.PromotionRepository;
 import com.gamezone.service.PersonService;
 import com.gamezone.service.ProductService;
+import com.gamezone.service.PromotionService;
 import com.gamezone.service.SaleService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
  * Console-based user interface for GameZone Unicesar.
- * Handles the main menu and the product, person and sale submenus.
+ * Handles the main menu and the product, person, sale and promotion submenus.
  */
 public class ConsoleUI {
 
     private final SaleService saleService;
     private final ProductService productService;
     private final PersonService personService;
+    private final PromotionService promotionService;
     private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleUI(SaleService saleService, ProductService productService, PersonService personService) {
         this.saleService = saleService;
         this.productService = productService;
         this.personService = personService;
+        this.promotionService = new PromotionService(new PromotionRepository());
     }
 
     /** Starts the main application loop. */
@@ -40,7 +46,8 @@ public class ConsoleUI {
                 case 1 -> displayProductSubmenu();
                 case 2 -> displayPersonSubmenu();
                 case 3 -> displaySaleSubmenu();
-                case 4 -> {
+                case 4 -> displayPromotionSubmenu();
+                case 5 -> {
                     exit = true;
                     System.out.println("Goodbye!");
                 }
@@ -55,7 +62,8 @@ public class ConsoleUI {
         System.out.println("1. Product Management");
         System.out.println("2. Person Management");
         System.out.println("3. Sale Management");
-        System.out.println("4. Exit");
+        System.out.println("4. Promotion Management");
+        System.out.println("5. Exit");
     }
 
     // ---------------- PRODUCTS ----------------
@@ -251,6 +259,102 @@ public class ConsoleUI {
             System.out.println("Sale registered successfully.");
         } catch (Exception e) {
             System.out.println("Could not register sale: " + e.getMessage());
+        }
+    }
+
+    // ---------------- PROMOTIONS ----------------
+
+    public void displayPromotionSubmenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- Promotion Submenu ---");
+            System.out.println("1. Register percentage discount");
+            System.out.println("2. Register category discount");
+            System.out.println("3. Register bulk purchase discount");
+            System.out.println("4. List all promotions");
+            System.out.println("5. List active promotions");
+            System.out.println("6. Back");
+            int option = readInt("Choose an option: ");
+            switch (option) {
+                case 1 -> registerPercentageDiscount();
+                case 2 -> registerCategoryDiscount();
+                case 3 -> registerBulkPurchaseDiscount();
+                case 4 -> listAllPromotions();
+                case 5 -> listActivePromotions();
+                case 6 -> back = true;
+                default -> System.out.println("Invalid option, try again.");
+            }
+        }
+    }
+
+    private void registerPercentageDiscount() {
+        System.out.println("-- New Percentage Discount --");
+        String id = readLine("ID: ");
+        String name = readLine("Name: ");
+        LocalDate startDate = LocalDate.parse(readLine("Start date (YYYY-MM-DD): "));
+        LocalDate endDate = LocalDate.parse(readLine("End date (YYYY-MM-DD): "));
+        double percentage = readDouble("Percentage (e.g. 15.0): ");
+        try {
+            promotionService.registerPercentageDiscount(id, name, startDate, endDate, percentage);
+            System.out.println("Percentage discount registered successfully.");
+        } catch (Exception e) {
+            System.out.println("Could not register promotion: " + e.getMessage());
+        }
+    }
+
+    private void registerCategoryDiscount() {
+        System.out.println("-- New Category Discount --");
+        String id = readLine("ID: ");
+        String name = readLine("Name: ");
+        LocalDate startDate = LocalDate.parse(readLine("Start date (YYYY-MM-DD): "));
+        LocalDate endDate = LocalDate.parse(readLine("End date (YYYY-MM-DD): "));
+        double percentage = readDouble("Percentage (e.g. 20.0): ");
+        String category = readLine("Target category (VIDEOGAME or CONSOLE): ");
+        try {
+            promotionService.registerCategoryDiscount(id, name, startDate, endDate, percentage, category);
+            System.out.println("Category discount registered successfully.");
+        } catch (Exception e) {
+            System.out.println("Could not register promotion: " + e.getMessage());
+        }
+    }
+
+    private void registerBulkPurchaseDiscount() {
+        System.out.println("-- New Bulk Purchase Discount --");
+        String id = readLine("ID: ");
+        String name = readLine("Name: ");
+        LocalDate startDate = LocalDate.parse(readLine("Start date (YYYY-MM-DD): "));
+        LocalDate endDate = LocalDate.parse(readLine("End date (YYYY-MM-DD): "));
+        int minQuantity = readInt("Minimum quantity: ");
+        double percentage = readDouble("Percentage (e.g. 10.0): ");
+        try {
+            promotionService.registerBulkPurchaseDiscount(id, name, startDate, endDate, minQuantity, percentage);
+            System.out.println("Bulk purchase discount registered successfully.");
+        } catch (Exception e) {
+            System.out.println("Could not register promotion: " + e.getMessage());
+        }
+    }
+
+    private void listAllPromotions() {
+        List<Promotion> promotions = promotionService.listAllPromotions();
+        if (promotions.isEmpty()) {
+            System.out.println("No promotions registered yet.");
+            return;
+        }
+        System.out.println("-- All Promotions --");
+        for (Promotion p : promotions) {
+            System.out.println("ID: " + p.getId() + " | Name: " + p.getName() + " | Start: " + p.getStartDate() + " | End: " + p.getEndDate());
+        }
+    }
+
+    private void listActivePromotions() {
+        List<Promotion> promotions = promotionService.listActivePromotions();
+        if (promotions.isEmpty()) {
+            System.out.println("No active promotions found.");
+            return;
+        }
+        System.out.println("-- Active Promotions --");
+        for (Promotion p : promotions) {
+            System.out.println("ID: " + p.getId() + " | Name: " + p.getName() + " | Start: " + p.getStartDate() + " | End: " + p.getEndDate());
         }
     }
 
