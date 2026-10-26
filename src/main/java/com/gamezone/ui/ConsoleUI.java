@@ -40,7 +40,7 @@
                 System.out.print("Seleccione una opción: ");
                 option = scanner.nextInt();
                 scanner.nextLine(); // Limpiar buffer
-
+                //aqui validamos y verificamos las opcion y si esta dentro de los parametros
                 if (option == 1) {
                     // Lógica para listar productos y agregarlos a purchasedItems
                     System.out.println("[Seleccione el producto del inventario tradicional...] ");
