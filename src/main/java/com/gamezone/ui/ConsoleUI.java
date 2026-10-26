@@ -31,7 +31,7 @@
             
             List<Product> purchasedItems = new ArrayList<>();
             int option = 0;
-            
+            //aqui registramos los productos o los accesorios
             do {
                 System.out.println("\n¿Qué tipo de ítem desea agregar a la venta?");
                 System.out.println("1. Producto tradicional (Consola/Videojuego)");
