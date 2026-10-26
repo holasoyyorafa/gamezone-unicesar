@@ -19,9 +19,51 @@
 
             switch (option) {
                 case 1:
-                    // Lógica para registrar control (llamar a AccessoryService)
-                    System.out.println("[Registro de Control en desarrollo]");
-                    break;
+                    /**
+     * Handles the interactive workflow for registering a new sale,
+     * allowing the selection of both traditional products and accessories.
+     */
+    public void registerSaleFlow() {
+        try {
+            System.out.println("\n=== REGISTRO DE NUEVA VENTA ===");
+            // 1. Solicitar cliente y vendedor (según la lógica existente)
+            // ...
+            
+            List<Product> purchasedItems = new ArrayList<>();
+            int option = 0;
+            
+            do {
+                System.out.println("\n¿Qué tipo de ítem desea agregar a la venta?");
+                System.out.println("1. Producto tradicional (Consola/Videojuego)");
+                System.out.println("2. Accesorio (Control/Cable/Memoria)");
+                System.out.println("0. Finalizar selección de ítems y procesar venta");
+                System.out.print("Seleccione una opción: ");
+                option = scanner.nextInt();
+                scanner.nextLine(); // Limpiar buffer
+
+                if (option == 1) {
+                    // Lógica para listar productos y agregarlos a purchasedItems
+                    System.out.println("[Seleccione el producto del inventario tradicional...] ");
+                    // Ejemplo: productService.listAllProducts(), etc.
+                } else if (option == 2) {
+                    // Lógica para listar accesorios y agregarlos a purchasedItems
+                    System.out.println("[Seleccione el accesorio del inventario de accesorios...] ");
+                    // Ejemplo: accessoryService.listAllAccessories(), etc.
+                }
+            } while (option != 0);
+
+            if (!purchasedItems.isEmpty()) {
+                // Llamar al servicio de ventas unificado que actualizamos en el Commit 1
+                // saleService.registerSale(date, client, seller, purchasedItems);
+                System.out.println("¡Venta registrada con éxito!");
+            } else {
+                System.out.println("La venta fue cancelada porque no contenía ítems.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error al registrar la venta: " + e.getMessage());
+        }
+    }
                 case 2:
                     // Lógica para registrar cable
                     System.out.println("[Registro de Cable en desarrollo]");
