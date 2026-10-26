@@ -5,8 +5,10 @@ import com.gamezone.model.Console;
 import com.gamezone.model.Product;
 import com.gamezone.model.Seller;
 import com.gamezone.model.VideoGame;
+import com.gamezone.persistence.ReturnRepository;
 import com.gamezone.service.PersonService;
 import com.gamezone.service.ProductService;
+import com.gamezone.service.ReturnService;
 import com.gamezone.service.SaleService;
 
 import java.util.ArrayList;
@@ -15,19 +17,21 @@ import java.util.Scanner;
 
 /**
  * Console-based user interface for GameZone Unicesar.
- * Handles the main menu and the product, person and sale submenus.
+ * Handles the main menu and the product, person, sale and return submenus.
  */
 public class ConsoleUI {
 
     private final SaleService saleService;
     private final ProductService productService;
     private final PersonService personService;
+    private final ReturnService returnService;
     private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleUI(SaleService saleService, ProductService productService, PersonService personService) {
         this.saleService = saleService;
         this.productService = productService;
         this.personService = personService;
+        this.returnService = new ReturnService(new ReturnRepository(saleService, productService), saleService, productService);
     }
 
     /** Starts the main application loop. */
@@ -40,7 +44,8 @@ public class ConsoleUI {
                 case 1 -> displayProductSubmenu();
                 case 2 -> displayPersonSubmenu();
                 case 3 -> displaySaleSubmenu();
-                case 4 -> {
+                case 4 -> displayReturnSubmenu();
+                case 5 -> {
                     exit = true;
                     System.out.println("Goodbye!");
                 }
@@ -55,7 +60,8 @@ public class ConsoleUI {
         System.out.println("1. Product Management");
         System.out.println("2. Person Management");
         System.out.println("3. Sale Management");
-        System.out.println("4. Exit");
+        System.out.println("4. Return Management");
+        System.out.println("5. Exit");
     }
 
     // ---------------- PRODUCTS ----------------
@@ -252,6 +258,91 @@ public class ConsoleUI {
         } catch (Exception e) {
             System.out.println("Could not register sale: " + e.getMessage());
         }
+    }
+
+    // ---------------- RETURNS ----------------
+
+    public void displayReturnSubmenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- Gestión de Devoluciones ---");
+            System.out.println("1. Registrar nueva devolución");
+            System.out.println("2. Consultar todas las devoluciones");
+            System.out.println("3. Consultar devoluciones por cliente");
+            System.out.println("4. Consultar devoluciones por venta");
+            System.out.println("5. Consultar balance mensual");
+            System.out.println("6. Volver");
+            int option = readInt("Seleccione una opción: ");
+            switch (option) {
+                case 1 -> registerReturn();
+                case 2 -> listAllReturns();
+                case 3 -> listReturnsByCustomer();
+                case 4 -> listReturnsBySale();
+                case 5 -> showMonthlyBalance();
+                case 6 -> back = true;
+                default -> System.out.println("Opción inválida, intente de nuevo.");
+            }
+        }
+    }
+
+    private void registerReturn() {
+        System.out.println("-- Registrar Devolución --");
+        String saleId = readLine("ID de la venta original: ");
+        List<String> productIds = new ArrayList<>();
+        while (true) {
+            String pId = readLine("ID del producto a devolver (dejar en blanco para terminar): ");
+            if (pId.isBlank()) break;
+            productIds.add(pId);
+        }
+        String reason = readLine("Motivo de la devolución: ");
+
+        try {
+            com.gamezone.model.Return ret = returnService.registerReturn(saleId, productIds, reason);
+            System.out.println("¡Devolución registrada con éxito!");
+            System.out.println(ret.generateReturnReceipt());
+        } catch (Exception e) {
+            System.out.println("No se pudo registrar la devolución: " + e.getMessage());
+        }
+    }
+
+    private void listAllReturns() {
+        List<com.gamezone.model.Return> returns = returnService.viewAllReturns();
+        if (returns.isEmpty()) {
+            System.out.println("No hay devoluciones registradas.");
+            return;
+        }
+        System.out.println("-- Listado de Devoluciones --");
+        for (com.gamezone.model.Return r : returns) {
+            System.out.println("ID: " + r.getId() + " | Fecha: " + r.getDate() + " | Reembolso: $" + r.getRefundAmount());
+        }
+    }
+
+    private void listReturnsByCustomer() {
+        String customerId = readLine("ID del cliente: ");
+        List<com.gamezone.model.Return> returns = returnService.viewReturnsByCustomer(customerId);
+        if (returns.isEmpty()) {
+            System.out.println("No hay devoluciones para este cliente.");
+            return;
+        }
+        returns.forEach(r -> System.out.println("ID: " + r.getId() + " | Venta: " + r.getOriginalSale().getId() + " | Monto: $" + r.getRefundAmount()));
+    }
+
+    private void listReturnsBySale() {
+        String saleId = readLine("ID de la venta: ");
+        List<com.gamezone.model.Return> returns = returnService.viewReturnsBySale(saleId);
+        if (returns.isEmpty()) {
+            System.out.println("No hay devoluciones asociadas a esta venta.");
+            return;
+        }
+        returns.forEach(r -> System.out.println("ID: " + r.getId() + " | Motivo: " + r.getRefundAmount()));
+    }
+
+    private void showMonthlyBalance() {
+        int month = readInt("Ingrese el mes (1-12): ");
+        int year = readInt("Ingrese el año (ej. 2026): ");
+        double balance = returnService.generateMonthlyBalance(month, year);
+        System.out.println("\n=== BALANCE MENSUAL (" + month + "/" + year + ") ===");
+        System.out.println("Ingreso Neto (Ventas - Devoluciones): $" + balance);
     }
 
     // ---------------- INPUT HELPERS ----------------

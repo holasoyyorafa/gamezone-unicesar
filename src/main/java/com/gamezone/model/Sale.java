@@ -1,5 +1,6 @@
 package com.gamezone.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -48,7 +49,19 @@ public class Sale {
     public double getTotal() {
         return total;
     }
-
+    
+    public boolean canBeReturned() {
+        if (date == null) return false;
+        try {
+            LocalDate saleDate = LocalDate.parse(date);
+            LocalDate today = LocalDate.now();
+            long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(saleDate, today);
+            return daysBetween >= 0 && daysBetween <= 30;
+        } catch (Exception e) {
+            return false;
+      
+      }
+    }
     @Override
     public String toString() {
         return "Sale {date: " + date
