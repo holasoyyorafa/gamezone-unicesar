@@ -45,3 +45,10 @@ com.gamezone
 ## Equipo
 
 Ver [TEAM.md](./TEAM.md) para roles, modulos y distribucion de trabajo.
+
+## Módulo de Accesorios - GameZone Unicesar
+Se ha extendido el sistema comercial para incluir tres tipos de accesorios:
+- **Controles**: Con tipo de conexión y compatibilidad con consolas.
+- **Cables**: Con longitud en metros y tipo de conector.
+- **Memorias**: Con capacidad de almacenamiento y tipo.
+Además, se integró el flujo de ventas unificado para permitir transacciones mixtas entre productos tradicionales y accesorios.
